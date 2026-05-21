@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adult Attachment Style Assessment</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+   
+        .quiz-title-area { 
+            text-align: center; 
+            margin: 55px 0 40px 0; 
+        }
+        
+        
+        .quiz-title-area h2 { 
+            font-family: "Helvetica Neue", "Arial", "PingFang SC", sans-serif;
+            font-size: 1.65rem; 
+            font-weight: 500; 
+            letter-spacing: 2.5px; 
+            color: #202421; 
+            margin: 0 0 14px 0; 
+        }
+
+        .quiz-title-area .subtitle {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            color: #626864;
+            font-size: 0.88rem;
+            letter-spacing: 1px;
+            line-height: 1.6;
+        }
+
+        .question-card { 
+            background: #ffffff; 
+            border: 1px solid #ebdcd5; 
+            border-radius: 12px; 
+            margin-bottom: 25px; 
+            padding: 35px 40px; 
+            box-shadow: 0 10px 30px rgba(42, 46, 43, 0.02);
+            box-sizing: border-box; 
+        }
+
+        .question-card h3 { 
+            font-family: "Helvetica Neue", Arial, sans-serif; 
+            font-weight: 600; 
+            font-size: 1.05rem; 
+            color: #2a2e2b; 
+            line-height: 1.6; 
+            margin-bottom: 20px;
+        }
+
+        .options-group { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+        }
+        
+        .option-label { 
+            background: #fbfaf7; 
+            border: 1px solid #ebdcd5; 
+            border-radius: 8px; 
+            padding: 14px 18px; 
+            font-size: 0.88rem; 
+            color: #2a2e2b;
+            line-height: 1.5;
+            cursor: pointer; 
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+        }
+        .option-label:hover { background: #f1f4f2; border-color: #7d968a; }
+        .option-label input { margin-right: 12px; cursor: pointer; }
+        
+        /* Gentle Morandi warm palette shift for selected option cards */
+        .option-label.selected { background: #ebe3dd !important; border-color: #d1bcae !important; font-weight: 500; }
+        
+        /* Results section initial display toggles */
+        #result-section { display: none; margin-top: 40px; }
+        .result-box { text-align: center; padding: 25px; border-radius: 8px; margin-bottom: 25px; line-height: 1.75; }
+        .result-box h4 { font-family: "Helvetica Neue", Arial, sans-serif; font-weight: bold; font-size: 1.15rem; margin-bottom: 12px; }
+        
+     
+
+        .axis-container { 
+            background-color: #ffffff; 
+            border: 1px solid #ebdcd5; 
+            border-radius: 12px; 
+            height: 320px; 
+            margin: 60px auto; 
+            position: relative; 
+            width: 320px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+            box-sizing: border-box;
+        }
+
+        .line-h { background-color: #e2ded8; height: 1px; left: 0; position: absolute; top: 50%; width: 100%; z-index: 1; }
+        .line-v { background-color: #e2ded8; left: 50%; position: absolute; top: 0; width: 1px; height: 100%; z-index: 1; }
+
+        /* Rigid constraints bounding the quadrant labels tightly into four corners */
+        .quadrant { 
+            color: #b0b5b2; 
+            font-family: "Helvetica Neue", Arial, sans-serif; 
+            font-size: 0.72rem; 
+            font-weight: 600; 
+            letter-spacing: 0.5px; 
+            text-transform: uppercase; 
+            position: absolute; 
+            width: 130px;              
+            height: 50px; 
+            pointer-events: none; 
+            line-height: 1.3;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        /* Strict spatial assignment per quadrant corner */
+        .q-top-left     { top: 15px;  left: 15px;  text-align: left; }
+        .q-top-right    { top: 15px;  right: 15px; text-align: right; }
+        .q-bottom-left  { bottom: 15px; left: 15px;  text-align: left; }
+        .q-bottom-right { bottom: 15px; right: 15px; text-align: right; }
+
+        /* Strict spatial isolation mapping for outward axis boundaries */
+        .axis-label { 
+            color: #8e9590; 
+            font-family: "Helvetica Neue", Arial, sans-serif; 
+            font-size: 0.72rem; 
+            font-weight: 600; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+            position: absolute; 
+            white-space: nowrap; 
+            z-index: 3;
+        }
+
+        .label-top    { top: -30px; left: 50%; transform: translateX(-50%); } 
+        .label-bottom { bottom: -30px; left: 50%; transform: translateX(-50%); }
+        .label-right  { right: -65px; top: 50%; transform: translateY(-50%); } 
+        .label-left   { left: -65px; top: 50%; transform: translateY(-50%); }
+
+        #status-dot { 
+            background-color: #d66156; 
+            border: 3px solid #ffffff; 
+            border-radius: 50%; 
+            height: 15px; 
+            position: absolute; 
+            width: 15px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15); 
+            z-index: 4;
+            transform: translate(-50%, -50%); 
+            transition: all 0.8s ease-out; 
+        }
+
+        /* 💡 Partner style select panel styling */
+        .partner-select-zone {
+            background-color: #ffffff;
+            border: 1px solid #ebdcd5;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        .partner-select-zone h4 { margin-top: 0; margin-bottom: 12px; color: #2a2e2b; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 600; }
+        .partner-btns-group {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0 25px 0;
+            flex-wrap: wrap;
+        }
+        .partner-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px;
+            background: #ffffff;
+            border: 1px solid #ebdcd5;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #626864;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .partner-btn:hover { background: #f1f4f2; border-color: #7d968a; }
+        .partner-btn.active { background: #7c91a6; color: #ffffff; border-color: #63768a; }
+
+        /* 💡 Dynamics description card engine slot */
+        .match-mode-card {
+            background: #f6f5f0;
+            border-left: 5px solid #7d968a;
+            border-radius: 0 8px 8px 0;
+            padding: 20px;
+            margin-top: 20px;
+            display: none; 
+        }
+        .match-mode-card h5 { margin: 0 0 10px 0; font-size: 1.05rem; color: #2a2e2b; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 600; }
+        .match-mode-card p { margin: 0; font-size: 0.88rem; color: #626864; line-height: 1.65; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-bar">
+            <span class="logo">🧠 Attachment Space</span>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="quiz.html" class="active">Explore Quiz</a>
+            </div>
+        </div>
+
+        <div class="quiz-title-area">
+            <h2>Adult Attachment Style Scientific Assessment</h2>
+            <div class="subtitle">Based on Foundational Attachment Theory · Discover Your True Coordinates in Intimacy</div>
+        </div>
+
+        <form id="quiz-form">
+            <div class="main-block question-card">
+                <h3>Q1. Recently, your academic/work stress has been immense, leaving you on the verge of an emotional breakdown. Tonight, your partner cannot be with you because they have to work overtime. What is your first instinctive reaction?</h3>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q1" value="A" required> Feel a bit disappointed, but completely understand. I will listen to music or take a bath by myself, trusting that my partner will contact me as soon as they are done.</label>
+                    <label class="option-label"><input type="radio" name="q1" value="B"> A wave of intense anxiety hits me. I can't help but send multiple consecutive texts demanding to know what they are really doing and questioning if they still love me.</label>
+                    <label class="option-label"><input type="radio" name="q1" value="C"> My face instantly goes cold, and I reply with a short "Fine, keep yourself busy." Then I think to myself, "As expected, you can only rely on yourself in the end."</label>
+                    <label class="option-label"><input type="radio" name="q1" value="D"> Feel extremely sad and panicked internally; I want to call them and cry out my worries, yet I am terrified of being a nuisance. I torment myself in an endless loop of overthinking.</label>
+                </div>
+            </div>
+
+            <div class="main-block question-card">
+                <h3>Q2. In a romantic relationship or deep courtship, if your partner requests 1–2 days of personal independent space every week, what is your gut intuition?</h3>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q2" value="A" required> That's wonderful! Appropriate distance gives the relationship room to breathe, and I happen to have time to focus on my own affairs too.</label>
+                    <label class="option-label"><input type="radio" name="q2" value="B"> Feel panicked and rejected. I start to suspect that they are getting tired of me, and I try to find all kinds of excuses to cling to them.</label>
+                    <label class="option-label"><input type="radio" name="q2" value="C"> Feel incredibly comfortable. Honestly, I might even wish they asked for more days, because being glued together every single day makes me feel suffocated.</label>
+                    <label class="option-label"><input type="radio" name="q2" value="D"> Agree on the surface, but internally begin to defensively distance myself from them. I think, "Since you want to step back, I'll step back too."</label>
+                </div>
+            </div>
+
+            <div class="main-block question-card">
+                <h3>Q3. You have an argument over a trivial daily matter (such as replying to messages slowly). Your partner gets emotionally intense. What is your most customary approach?</h3>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q3" value="A" required> Try to take a deep breath, wait for the other person to calm down, and then honestly express my true feelings to find a solution together.</label>
+                    <label class="option-label"><input type="radio" name="q3" value="B"> Cannot tolerate the silence. I must drag them into a conversation to clear things up immediately; even if it means crying or badgering them continuously, I need to hear them say they aren't angry anymore.</label>
+                    <label class="option-label"><input type="radio" name="q3" value="C"> My body instinctively wants to flee. I slam the door and walk out, or put on headphones without saying a single word, entering a state of "silent treatment."</label>
+                    <label class="option-label"><input type="radio" name="q3" value="D"> Experience extreme inner torment; I angrily lash back while simultaneously fearing it will lead to a permanent breakup. I swing back and forth between hysteria and submissiveness.</label>
+                </div>
+            </div>
+
+            <div class="main-block question-card">
+                <h3>Q4. When your partner unexpectedly expresses an incredibly deep, passionate confession to you, or reveals their highly vulnerable, helpless side:</h3>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q4" value="A" required> Feel very warm inside; I will gently embrace them and express my own love and support with equal sincerity.</label>
+                    <label class="option-label"><input type="radio" name="q4" value="B"> Deeply moved, but a faint, underlying anxiety immediately creeps in: "They love me so much right now, but what if they change their mind in the future?"</label>
+                    <label class="option-label"><input type="radio" name="q4" value="C"> Feel entirely out of place and slightly awkward. I don't know how to handle such a heavy, serious atmosphere, so I habitually brush it off with a joke.</label>
+                    <label class="option-label"><input type="radio" name="q4" value="D"> Extremely conflicted inside. On one hand, I crave this deep connection, but on the other hand, I strongly doubt their sincerity and instinctively want to push them away.</label>
+                </div>
+            </div>
+
+            <div class="main-block question-card">
+                <h3>Q5. Your partner has to travel to another city for business or an academic exchange for three months. At the moment of saying goodbye, what is your genuine state of mind?</h3>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q5" value="A" required> Hug and say goodbye reluctantly. Although I will miss them, I trust our bond is solid, and we will both work hard in our respective places.</label>
+                    <label class="option-label"><input type="radio" name="q5" value="B"> A sweeping sense of despair takes over. Just the thought of the upcoming separation makes me feel like my life has lost its anchor, and I start planning frantic ways to monitor them or video call constantly.</label>
+                    <label class="option-label"><input type="radio" name="q5" value="C"> Act completely unfazed. I urge them to leave quickly, feeling a faint, hidden sense of relief like "finally, freedom."</label>
+                    <label class="option-label"><input type="radio" name="q5" value="D"> My mood is incredibly low, but I act extremely cold. I intentionally avoid looking at them, using a detached attitude to mask my inner panic.</label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" style="margin: 40px auto; width: 280px;">Generate My Axis Report ➔</button>
+
+            <div class="main-block" style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px;">Don't want to take the quiz? Prefer to read the comprehensive Advanced Growth Guide directly?</p>
+                <a href="more.html" class="submit-btn" style="width: 280px; margin: 0 auto; background-color: #e29c74;">➔ Go Directly to Growth Guide</a>
+            </div>
+        </form>
+
+        <div id="result-section">
+            <div class="main-block">
+                <h3>📊 Your Adult Attachment Style Quadrant Chart</h3>
+                
+                <div class="axis-container">
+                    <div class="line-h"></div>
+                    <div class="line-v"></div>
+                    <div class="quadrant q-top-left">Anxious<br>(Top-Left)</div>
+                    <div class="quadrant q-top-right">Fearful/Avoidant<br>(Top-Right)</div>
+                    <div class="quadrant q-bottom-left">Secure<br>(Bottom-Left)</div>
+                    <div class="quadrant q-bottom-right">Dismissive/Avoidant<br>(Bottom-Right)</div>
+                    <span class="axis-label label-top">High Anxiety</span>
+                    <span class="axis-label label-bottom">Low Anxiety</span>
+                    <span class="axis-label label-right">High Avoidance</span>
+                    <span class="axis-label label-left">Low Avoidance</span>
+                    <div id="status-dot"></div>
+                </div>
+
+                <div id="result-text" class="result-box"></div>
+
+                <div class="partner-select-zone">
+                    <h4>👩‍❤️‍👨 Quick Explore: Interaction Patterns</h4>
+                    <p style="font-size: 0.85rem; color: #7f8c8d; margin: 0 0 15px 0;">If you already know your partner's attachment style, please click the corresponding button below to select their type:</p>
+                    
+                    <div class="partner-btns-group">
+                        <button type="button" class="partner-btn" data-type="Secure">🌱 Secure</button>
+                        <button type="button" class="partner-btn" data-type="Anxious">🧡 Anxious</button>
+                        <button type="button" class="partner-btn" data-type="Avoidant">🔹 Avoidant</button>
+                        <button type="button" class="partner-btn" data-type="Fearful">🔮 Fearful-Avoidant</button>
+                    </div>
+
+                    <div id="match-mode-output" class="match-mode-card"></div>
+                </div>
+
+                <div style="margin-top: 35px; padding-top: 25px; border-top: 1px dashed #ebdcd5; text-align: center;">
+                    <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px;">Your coordinates are unlocked! Ready to learn how to break through your current relationship cycles?</p>
+                    <a href="more.html" class="submit-btn" style="width: 280px; margin: 0 auto; background-color: #e29c74;">➔ Learn More in Advanced Guide</a>
+                </div>
+            </div>
+            
+            <a href="quiz.html" class="submit-btn" style="margin-bottom: 50px; background-color: #7f8c8d; width: 280px;">Retake Quiz</a>
+        </div>
+    </div>
+
+    <script>
+        // Global variables system tracking evaluated attachment archetypes
+        let userStyle = "Secure";
+
+        // Click options highlight trigger system
+        document.querySelectorAll('.option-label input').forEach(input => {
+            input.addEventListener('change', function() {
+                const name = this.getAttribute('name');
+                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                    radio.parentElement.classList.remove('selected');
+                });
+                if(this.checked) {
+                    this.parentElement.classList.add('selected');
+                }
+            });
+        });
+
+        // Fixed score evaluation mapping & vector plotting onto cross-grid axis without refreshing pages
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Rigidly intercept browser's default submission behaviors
+
+            const questions = ['q1', 'q2', 'q3', 'q4', 'q5'];
+            let answers = {};
+            
+            for (let q of questions) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (!selected) {
+                    alert('Please complete all scenario questions before submitting!');
+                    return;
+                }
+                answers[q] = selected.value;
+            }
+
+            let myX = 0; let myY = 0; 
+
+            for (let q in answers) {
+                let val = answers[q];
+                if (val === 'A') { myX -= 2; myY -= 2; } 
+                else if (val === 'B') { myX -= 2; myY += 2; } 
+                else if (val === 'C') { myX += 2; myY -= 2; } 
+                else if (val === 'D') { myX += 2; myY += 2; }
+            }
+
+            // Calculations mapping pixels within a 320px bounding box container cleanly
+            const center = 160; 
+            let leftPercent = center + (myX * 13);
+            let topPercent = center - (myY * 13);
+
+            const dot = document.getElementById('status-dot');
+            if (dot) {
+                dot.style.left = leftPercent + 'px';
+                dot.style.top = topPercent + 'px';
+            }
+
+            const resultText = document.getElementById('result-text');
+            resultText.className = 'result-box';
+
+            if (myX < 0 && myY >= 0) {
+                userStyle = "Anxious";
+                resultText.classList.add('type-anxious');
+                resultText.innerHTML = `<h4>🔮 Diagnostic Result: Anxious Attachment Style</h4><p>In relationships, you are like a cat with highly sensitive antennae—extremely observant and easily affected. You possess a natural alertness to any threat signals in intimacy, easily falling into overthinking patterns like 'Does he/she still love me?'. Try to trust your partner, and learn to re-allocate some of life's weight back to yourself.</p>`;
+            } else if (myX >= 0 && myY >= 0) {
+                userStyle = "Fearful";
+                resultText.classList.add('type-fearful');
+                resultText.innerHTML = `<h4>🔮 Diagnostic Result: Fearful-Avoidant Attachment Style</h4><p>Deep down, you are constantly acting out a conflicted script of 'pushing away, then pulling back.' You profoundly crave love and intimacy, but the second someone steps close, your trauma-defending instincts set off an alarm, causing you to push them away prematurely out of fear of getting hurt.</p>`;
+            } else if (myX >= 0 && myY < 0) {
+                userStyle = "Avoidant";
+                resultText.classList.add('type-avoidant');
+                resultText.innerHTML = `<h4>🔮 Diagnostic Result: Dismissive-Avoidant Attachment Style</h4><p>You are a 'lone wolf' who values absolute independence above all else. When friction or pressure appears in a relationship, your first instinct is not to solve it, but to retreat, give the silent treatment, or hide in your shell. Try telling your partner, 'I just need some quiet time alone, I'm not leaving you' before you pull away.</p>`;
+            } else {
+                userStyle = "Secure";
+                resultText.classList.add('type-secure');
+                resultText.innerHTML = `<h4>🔮 Diagnostic Result: Secure Attachment Style</h4><p>Congratulations! You are an incredibly precious 'secure base' in interpersonal relationships. You can comfortably enjoy deep intimacy and healthy reliance, while maintaining a robust capacity for independent living. You are not afraid to show your vulnerability, and you offer high levels of trust to your partner.</p>`;
+            }
+
+            // Smoothly collapse inputs form panel and toggle active status views
+            document.getElementById('quiz-form').style.display = 'none';
+            document.getElementById('result-section').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Interactivity matchmaking simulator processing key bindings
+        document.querySelectorAll('.partner-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.partner-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const partnerType = this.getAttribute('data-type');
+                const outputCard = document.getElementById('match-mode-output');
+                outputCard.style.display = 'block';
+
+                let reportHTML = `<h5>🔗 Relationship Blueprint: Your 【${userStyle} Style】 ➔ Partner's 【${partnerType} Style】</h5>`;
+
+                if (userStyle === 'Anxious' && partnerType === 'Avoidant') {
+                    reportHTML += `<p>⚠️ <strong>Triggers the "Anxious-Avoidant Trap" (The Pursuer-Distancer Cycle):</strong><br>This is an incredibly classic yet exhausting dynamic in romantic relationships. During conflicts, the Anxious type (you), driven by inner insecurity, instinctively tries to talk it out immediately, seeking reassurance and sending strings of messages. Meanwhile, facing this high-density emotional pressure, the Avoidant type (your partner) feels suffocated, goes on the defensive, and chooses to shut down or withdraw. One pursues, the other flees. <strong>The Way Out:</strong> You need to leave them room to breathe in their cave, while they need to explicitly state when they will return before retreating, providing you with a reliable anchor of commitment.</p>`;
+                } else if (userStyle === 'Avoidant' && partnerType === 'Anxious') {
+                    reportHTML += `<p>⚠️ <strong>Reverse "Pursuit-Distancer Showdown" (You Flee, They Pursue):</strong><br>When differences arise or things get too clingy, the Avoidant type (you) instinctively pulls away, retreats into a shell, or remains silent. This immediately triggers a 'lost kitten effect' in the Anxious type's (your partner's) subconscious, sending them into an absolute panic. This panic manifests as pursuit behaviors like endless calls and emotional outbursts, which only makes you feel more resistant and eager to escape. <strong>The Way Out:</strong> Try adding a sentence before you pull back: 'I just need a moment to process, I'm not going anywhere.' This simple reassurance prevents your partner from panicking during your silence.</p>`;
+                } else if (userStyle === 'Secure' || partnerType === 'Secure') {
+                    reportHTML += `<p>🌱 <strong>"Secure Base" Healing Dynamic:</strong><br>Your relationship contains an exceptionally solid lighthouse. The Secure partner naturally has a high emotional capacity and healing presence. Whether the other person is frequently demanding reassurances (Anxious) or habitually ducking into their shell (Avoidant), the Secure individual uses steady, un-exhausting emotional consistency to slowly soften and dissolve the other's psychological defenses. Over long-term coexistence, the insecure partner will gradually shift closer toward the secure quadrant.</p>`;
+                } else if (userStyle === 'Anxious' && partnerType === 'Anxious') {
+                    reportHTML += `<p>🧡 <strong>"Resonating Porcupines" Dynamic:</strong><br>Both of you strongly desire to be glued together, placing immense value on instant replies and absolute favoritism from your partner. When things are good, it's passionately sweet and inseparable. However, because both sides harbor deep baseline insecurities, if you both happen to hit a personal low point at the same time, mutual suspicion takes over. Minor things get blown way out of proportion, transforming the connection into a painful 'porcupine dance.' The shared homework here is learning not to depend entirely on your partner for validation.</p>`;
+                } else if (userStyle === 'Avoidant' && partnerType === 'Avoidant') {
+                    reportHTML += `<p>🔹 <strong>"Parallel Lines" Independent Dynamic:</strong><br>You both deeply respect each other's private boundaries and never overstep. While you coexist with mutual respect and rarely engage in explosive, dramatic arguments, both sides carry high defensive mechanisms. Because you are both terrified of showing vulnerability, the relationship can easily stagnate in lukewarm waters, making it hard to establish deep, soul-stirring intimacy. Try picking a quiet night to share some childhood stories to break the ice.</p>`;
+                } else {
+                    reportHTML += `<p>🔮 <strong>"Tug-of-War Labyrinth" Dynamic:</strong><br>Because this involves the psychological traits of Fearful-Avoidance, your relationship frequently traps you both in a loop of 'craving intimacy yet deeply doubting its authenticity.' It resembles an emotional roller coaster—exceptionally close today, yet suddenly freezing and pushing each other away tomorrow over a tiny detail. Navigating this successfully requires high levels of psychological tolerance and self-awareness.</p>`;
+                }
+
+                outputCard.innerHTML = reportHTML;
+                outputCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+    </script>
+</body>
+</html>

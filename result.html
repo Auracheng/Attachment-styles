@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attachment Style Science Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Quiz-specific lightweight supplemental styles, perfectly blending into your beige magazine style */
+        .quiz-title-area { text-align: center; margin: 40px 0; }
+        .quiz-title-area h2 { margin: 0; font-size: 1.8rem; }
+        .question-card { margin-bottom: 25px; }
+        .options-group { display: flex; flex-direction: column; gap: 10px; }
+        .option-label { 
+            background: #faf9f6; border: 1px solid #edebe6; border-radius: 6px; 
+            padding: 12px 15px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
+        }
+        .option-label:hover { background: #f1f4f2; border-color: #8fa89b; }
+        .option-label input { margin-right: 10px; }
+        
+        /* Natural color shift for selected state */
+        .option-label.selected { background: #ebdcd5; border-color: #e29c74; }
+        
+        /* Result display area hidden initially */
+        #result-section { display: none; margin-top: 40px; }
+        .result-box { text-align: center; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-bar">
+            <span class="logo">🧠 Attachment Space</span>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="quiz.html" class="active">Explore Quiz</a>
+            </div>
+        </div>
+
+        <div class="quiz-title-area">
+            <h2>Adult Attachment Style Assessment</h2>
+            <div class="subtitle">An Empirical Framework Rooted in Attachment Theory · Map Your Intimacy Dynamics</div>
+        </div>
+
+        <div id="quiz-wrapper">
+            <div class="main-block question-card">
+                <h3>Q1. Suppose you are overwhelmed by work or academic pressure and on the verge of an emotional burnout. Tonight, your partner has to work late and cannot be with you. What is your immediate, instinctive reaction?</h3>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q1" value="A" required> I feel a bit disappointed but fully understand. I'll unwind by listening to music or taking a bath, confident they will reach out as soon as they are free.</label>
+                    <label class="option-label"><input type="radio" name="q1" value="B"> A wave of intense anxiety hits me. I can’t stop myself from sending multiple texts to check what they are doing, seeking reassurance that they still care.</label>
+                    <label class="option-label"><input type="radio" name="q1" value="C"> I instantly shut down emotionally, replying with a cold "Fine, do what you have to do." Privately, I think: "As expected, you can only rely on yourself."</label>
+                    <label class="option-label"><input type="radio" name="q1" value="D"> I feel deeply anxious and distressed. I want to call them and lean on them, but I'm terrified of being a burden. I get caught in an exhausting loop of overthinking.</label>
+                </div>
+            </div>
+
+            <div class="main-block question-card">
+                <h3>Q2. In a committed relationship, if your partner requests 1–2 days of personal, independent space every week, what is your gut response?</h3>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q2" value="A" required> That’s healthy. A little distance gives the relationship room to breathe, and it gives me a great opportunity to focus on my own life and passions.</label>
+                    <label class="option-label"><input type="radio" name="q2" value="B"> I feel panicked and rejected. I immediately worry they are losing interest in me, and I try to find ways to stay connected or stay by their side.</label>
+                    <label class="option-label"><input type="radio" name="q2" value="C"> I feel deeply relieved. Honestly, I might prefer even more solo time—being glued together every day makes me feel suffocated.</label>
+                    <label class="option-label"><input type="radio" name="q2" value="D"> I agree to it outwardly, but internally I pull back to protect myself, thinking: "If you want to step away, I’ll step away further."</label>
+                </div>
+            </div>
+
+            <div class="main-block question-card">
+                <h3>Q3. During a disagreement over a trivial matter (like delayed text replies), your partner becomes highly emotional. What is your typical approach?</h3>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q3" value="A" required> I take a deep breath, wait for the tension to diffuse, and then openly communicate my perspective so we can find a resolution together.</label>
+                    <label class="option-label"><input type="radio" name="q3" value="B"> I cannot handle the silence or unresolved tension. I need to address it immediately—even if it means crying or pushing for answers—just to know they aren't angry anymore.</label>
+                    <label class="option-label"><input type="radio" name="q3" value="C"> My natural instinct is to escape. I shut down, leave the room, or put on headphones without a word, retreating into a wall of silence.</label>
+                    <label class="option-label"><input type="radio" name="q3" value="D"> I experience intense inner turmoil. I might lash out defensively while simultaneously fearing the argument will break us up, swinging between protest behavior and compliance.</label>
+                </div>
+            </div>
+
+            <div class="main-block question-card">
+                <h3>Q4. When your partner unexpectedly expresses a deeply passionate confession or shares a profoundly vulnerable, helpless side of themselves:</h3>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q4" value="A" required> I feel a warm sense of connection. I will hold them close and reciprocate with equal sincerity and emotional support.</label>
+                    <label class="option-label"><input type="radio" name="q4" value="B"> I am deeply moved, but a subtle, lingering worry creeps in: "They love me now, but what if their feelings fade tomorrow?"</label>
+                    <label class="option-label"><input type="radio" name="q4" value="C"> I feel awkward and out of place. I don’t quite know how to sit with such intense emotional gravity, so I usually deflect it with a joke.</label>
+                    <label class="option-label"><input type="radio" name="q4" value="D"> I am deeply conflicted. Part of me craves this profound closeness, but another part doubts its sincerity and instinctively wants to push them away to avoid getting hurt.</label>
+                </div>
+            </div>
+
+            <div class="main-block question-card">
+                <h3>Q5. Your partner has to relocate to another city for a three-month business assignment or academic exchange. At the moment of departure, what is your genuine state of mind?</h3>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q5" value="A" required> We share a bittersweet goodbye. While I’ll miss them terribly, I trust the strength of our bond and believe we will both thrive during our time apart.</label>
+                    <label class="option-label"><input type="radio" name="q5" value="B"> I feel an overwhelming sense of abandonment. The impending separation makes me feel anchorless, and I find myself planning how to monitor them or request constant video calls.</label>
+                    <label class="option-label"><input type="radio" name="q5" value="C"> I act completely unfazed and urge them to get going, while secretly feeling a quiet sense of relief—finally, total freedom.</label>
+                    <label class="option-label"><input type="radio" name="q5" value="D"> I feel profoundly down, but I put up a cold, detached front. I intentionally avoid eye contact, using distance as a shield to mask my inner panic.</label>
+                </div>
+            </div>
+
+            <button type="button" class="submit-btn" id="calc-btn" style="margin: 40px auto; width: 280px;">View My Report ➔</button>
+        </div>
+
+        <div id="result-section">
+            <div class="main-block">
+                <h3>📊 Your Attachment Style Profile</h3>
+                
+                <div class="axis-container">
+                    <div class="line-h"></div>
+                    <div class="line-v"></div>
+                    <div class="quadrant q-top-left">Anxious<br>(Top-Left)</div>
+                    <div class="quadrant q-top-right">Fearful-Avoidant<br>(Top-Right)</div>
+                    <div class="quadrant q-bottom-left">Secure<br>(Bottom-Left)</div>
+                    <div class="quadrant q-bottom-right">Dismissive-Avoidant<br>(Bottom-Right)</div>
+                    <span class="axis-label label-top">High Anxiety</span>
+                    <span class="axis-label label-bottom">Low Anxiety</span>
+                    <span class="axis-label label-right">High Avoidance</span>
+                    <span class="axis-label label-left">Low Avoidance</span>
+                    <div id="status-dot"></div>
+                </div>
+
+                <div id="result-text" class="result-box"></div>
+
+                <div style="margin-top: 35px; padding-top: 25px; border-top: 1px dashed #edebe6; text-align: center;">
+                    <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px;">Ready to unpack your relationship patterns and build lasting, secure intimacy?</p>
+                    <a href="more.html" class="submit-btn" style="width: 280px; margin: 0 auto; background-color: #e29c74;">➔ Read Advanced Insights Guide</a>
+                </div>
+            </div>
+            
+            <a href="quiz.html" class="submit-btn" style="margin-bottom: 50px; background-color: #7f8c8d; width: 280px;">Retake Quiz</a>
+        </div>
+    </div>
+
+    <script>
+        // High-lighting toggle effect when clicking options
+        document.querySelectorAll('.option-label input').forEach(input => {
+            input.addEventListener('change', function() {
+                const name = this.getAttribute('name');
+                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                    radio.parentElement.classList.remove('selected');
+                });
+                if(this.checked) {
+                    this.parentElement.classList.add('selected');
+                }
+            });
+        });
+
+        // Core score calculation and multi-quadrant tracking
+        document.getElementById('calc-btn').addEventListener('click', function() {
+            const questions = ['q1', 'q2', 'q3', 'q4', 'q5'];
+            let answers = {};
+            
+            for (let q of questions) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (!selected) {
+                    alert('Please complete all scenario questions before submitting!');
+                    return;
+                }
+                answers[q] = selected.value;
+            }
+
+            let myX = 0; 
+            let myY = 0; 
+
+            // Algorithmic evaluation: Map choices directly to X and Y axes
+            for (let q in answers) {
+                let val = answers[q];
+                if (val === 'A') { myX -= 2; myY -= 2; } 
+                else if (val === 'B') { myX -= 2; myY += 2; } 
+                else if (val === 'C') { myX += 2; myY -= 2; } 
+                else if (val === 'D') { myX += 2; myY += 2; }
+            }
+
+            // Map standard physical coordinate points inside a 320px bounding box
+            const center = 160; 
+            let leftPercent = center + (myX * 13);
+            let topPercent = center - (myY * 13);
+
+            const dot = document.getElementById('status-dot');
+            dot.style.left = leftPercent + 'px';
+            dot.style.top = topPercent + 'px';
+
+            const resultText = document.getElementById('result-text');
+            resultText.className = 'result-box';
+
+            // Four-quadrant matching and diagnostics distribution
+            if (myX < 0 && myY >= 0) {
+                resultText.classList.add('type-anxious');
+                resultText.innerHTML = `<h4>🔮 Diagnosis: Anxious Attachment Style</h4><p>In relationships, you possess highly sensitive antennae—intuitively attuned to your partner’s emotional shifts. Because you are hyper-aware of potential threats to connection, it can be easy to fall into cycles of overthinking and seek constant reassurance. Healing for you involves learning to trust the stability of your bond and gently re-centering your sense of security within yourself.</p>`;
+            } else if (myX >= 0 && myY >= 0) {
+                resultText.classList.add('type-fearful');
+                resultText.innerHTML = `<h4>🔮 Diagnosis: Fearful-Avoidant Attachment Style</h4><p>You often navigate a deeply conflicted inner script: intensely craving deep intimacy, yet pulling back the moment someone gets too close. When vulnerability triggers an emotional alarm, your protective instincts prompt you to push others away to prevent being hurt. Healing begins with slowly building an internal foundation of safety, allowing yourself to open up at a manageable pace.</p>`;
+            } else if (myX >= 0 && myY < 0) {
+                resultText.classList.add('type-avoidant');
+                resultText.innerHTML = `<h4>🔮 Diagnosis: Dismissive-Avoidant Attachment Style</h4><p>You operate beautifully as a self-reliant individual, prioritizing absolute independence above all else. When relationship friction or emotional demands arise, your natural defense is to retreat, lean into self-soothing, or implement a quiet distance. While self-sufficiency is a strength, true connection requires mutual reliance. Try offering your partner clarity—letting them know you simply need solo time to recharge, rather than shutting down completely.</p>`;
+            } else {
+                resultText.classList.add('type-secure');
+                resultText.innerHTML = `<h4>🔮 Diagnosis: Secure Attachment Style</h4><p>Congratulations! You serve as a wonderfully grounding, secure base in your relationships. You navigate deep emotional intimacy and healthy interdependence with ease, while maintaining a robust, independent identity. Comfortable with vulnerability and generous with your trust, you foster an environment where love can flow freely. Keep nurturing this balanced, resilient heart.</p>`;
+            }
+
+            // Interface panels display toggle
+            document.getElementById('quiz-wrapper').style.display = 'none';
+            document.getElementById('result-section').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
